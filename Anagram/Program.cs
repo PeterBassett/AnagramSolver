@@ -165,26 +165,8 @@ namespace Anagram
 
                 if (clue.Length == 0 || availableLetters.Length == 0)
                     continue;
-
-                int iX = Console.CursorLeft;
-                int iY = Console.CursorTop;
-                var iCount = 0;
-                var lockable = new object();
-                Action<string> SearchProgress = (word) =>
-                {
-                    iCount++;
-
-                    if (iCount % 5000 == 0)
-                    {
-                        lock (lockable)
-                        {
-                            Console.CursorLeft = iX;
-                            Console.CursorTop = iY;
-
-                            Console.WriteLine(word.PadRight(40));
-                        }
-                    }
-                };
+                
+                
 
                 var words = clue.Split(new[] { ' ' });
 
@@ -192,9 +174,12 @@ namespace Anagram
 
                 Console.WriteLine("Searching {0:n0} permutations", permutations.Count);
 
+                int currentLine = Console.CursorTop;
+                int permutationCount = 0;
                 var answerSet = new Dictionary<string, int>();
                 foreach (IList<char> p in permutations)
                 {
+                    permutationCount++;
                     var permutation = new Queue<char>(p);
 
                     var foundWords = new List<Tuple<string, int>>();
@@ -221,6 +206,13 @@ namespace Anagram
                         }
                     }
 
+                    if (permutationCount % 500000 == 0)
+                    {
+                        Console.CursorTop = currentLine + 1;
+                        Console.CursorLeft = 0;
+                        Console.Write("{0:n0} permutations searched. {1:n0}% complete", permutationCount, permutationCount / (double)permutations.Count * 100);
+                    }
+
                     if (foundAll)
                     {
                         var answer = string.Join(" ", foundWords.Select(w => w.Item1).ToArray());
@@ -231,12 +223,20 @@ namespace Anagram
 
                         answerSet.Add(answer, frequency);
 
-                        //Console.WriteLine("FOUND - " + answer);
+                        Console.CursorTop = currentLine + 1;
+                        Console.CursorLeft = 0;
+
+                        foreach (var item in answerSet.OrderByDescending(a => a.Value).Take(15))
+                        {
+                            Console.WriteLine(item);
+                        }
                     }
                 }
 
                 var orderedAnswers = answerSet.OrderByDescending(a => a.Value);
-
+                Console.CursorTop = currentLine;
+                Console.CursorLeft = 0;
+                Console.WriteLine("Search Complete");
                 foreach (var answer in orderedAnswers)
                 {
                     Console.WriteLine("FOUND - " + answer.Key + "\t\t\t" + answer.Value);
