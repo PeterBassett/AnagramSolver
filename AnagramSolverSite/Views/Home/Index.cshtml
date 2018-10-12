@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Crossword Anagram Solver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Crossword Anagram Solver</h2>
+<div class="container">
+    <div class="data-entry">
+        <h3>? for missing letters and space to separate words.</h3>
+        <input type="text" id="clue" />
+    </div>
+
+    <div class="data-entry">
+        <h3>Enter the set of available letters.</h3>    
+        <input type="text" id="availableLetters" />        
+    </div>
+
+    <div class="data-entry">
+        <input type="button" id="search" value="Search" />
+    </div>
+
+    <div class="answer-container">
+        <div id="totalPermutations"></div>
+        <div id="percentageComplete"></div>
+        <div id="bestGuesses"></div>
+        <div id="topAnswers"></div>    
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/CrossWordAnagram.js"></script>
+}

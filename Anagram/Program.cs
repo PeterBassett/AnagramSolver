@@ -165,9 +165,7 @@ namespace Anagram
 
                 if (clue.Length == 0 || availableLetters.Length == 0)
                     continue;
-                
-                
-
+                               
                 var words = clue.Split(new[] { ' ' });
 
                 var permutations = new Permutations<char>(availableLetters.ToLower().ToCharArray(), GenerateOption.WithoutRepetition);

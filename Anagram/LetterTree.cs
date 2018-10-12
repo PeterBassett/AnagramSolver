@@ -181,8 +181,9 @@ namespace Anagram
             // parallel iteration of the permutation list
             Parallel.ForEach(permutations, (IList<char> chars) => {                    
                 string strWord = new string(chars.ToArray());
-
-                oParams.Progress?.Invoke(strWord);
+                
+                if(oParams.Progress != null)
+                    oParams.Progress.Invoke(strWord);
 
                 // add each work to the blocking collection
                 foreach (var strFoundWord in TreeRoot.Search(strWord, 0))

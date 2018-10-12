@@ -5,3 +5,11 @@
 /.vs/Anagram/v15
 /Anagram/bin
 /Anagram/obj
+/AnagramSolverLib/bin
+/AnagramSolverLib/obj
+/AnagramSolverSite/bin
+/AnagramSolverSite/obj
+/packages
+*.suo
+*.pubxml
+*.user
